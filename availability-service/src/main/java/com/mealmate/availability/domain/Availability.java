@@ -1,0 +1,4 @@
+package com.mealmate.availability.domain;
+import jakarta.persistence.*; import java.util.UUID;
+@Entity @Table(name="menu_item_availability",uniqueConstraints=@UniqueConstraint(columnNames="menu_item_id"))
+public class Availability { @Id @GeneratedValue(strategy=GenerationType.UUID) private UUID id; @Column(name="menu_item_id",nullable=false) private UUID menuItemId; @Column(nullable=false) private int quantity; @Column(nullable=false) private int reservedQuantity; protected Availability(){} public Availability(UUID id,int q){menuItemId=id;quantity=q;} public UUID getMenuItemId(){return menuItemId;} public int getQuantity(){return quantity;} public int getReservedQuantity(){return reservedQuantity;} public int available(){return quantity-reservedQuantity;} public void reserve(int q){reservedQuantity+=q;} public void release(int q){reservedQuantity-=q;}}

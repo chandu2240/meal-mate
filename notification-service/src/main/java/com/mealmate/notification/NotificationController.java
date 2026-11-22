@@ -1,0 +1,1 @@
+package com.mealmate.notification; import org.springframework.web.bind.annotation.*; import java.util.*; @RestController @RequestMapping("/notifications") class NotificationController{final NotificationRepository r;NotificationController(NotificationRepository x){r=x;}@GetMapping("/{id}")List<Notification> get(@PathVariable UUID id){return r.findByOrderId(id);}}

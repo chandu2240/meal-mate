@@ -1,0 +1,1 @@
+package com.mealmate.delivery; import jakarta.persistence.*; import java.util.*; @Entity public class Delivery{@Id private UUID orderId;private String status;protected Delivery(){}Delivery(UUID id,String s){orderId=id;status=s;}public UUID getOrderId(){return orderId;}public String getStatus(){return status;}public void setStatus(String s){status=s;}}

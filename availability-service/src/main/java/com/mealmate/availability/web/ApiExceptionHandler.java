@@ -1,0 +1,3 @@
+package com.mealmate.availability.web;
+import com.mealmate.availability.service.AvailabilityService.InsufficientAvailabilityException; import org.springframework.http.*; import org.springframework.web.bind.annotation.*; import java.util.*;
+@RestControllerAdvice public class ApiExceptionHandler {@ExceptionHandler(NoSuchElementException.class) ResponseEntity<Map<String,String>> nf(Exception e){return ResponseEntity.status(404).body(Map.of("error",e.getMessage()));}@ExceptionHandler({IllegalStateException.class,InsufficientAvailabilityException.class}) ResponseEntity<Map<String,String>> bad(Exception e){return ResponseEntity.status(409).body(Map.of("error",e.getMessage()));}}

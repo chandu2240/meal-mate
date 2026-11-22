@@ -1,0 +1,3 @@
+package com.mealmate.availability.web;
+import jakarta.validation.Valid; import jakarta.validation.constraints.*; import java.util.*;
+public final class AvailabilityDtos { private AvailabilityDtos(){} public record QuantityRequest(@NotNull UUID menuItemId,@Min(1) int quantity){} public record ReservationRequest(@NotNull UUID orderId,@NotEmpty List<@Valid QuantityRequest> items){} public record AvailabilityResponse(UUID menuItemId,int quantity,int reservedQuantity,int available){} public record ReservationResponse(UUID orderId,List<QuantityRequest> items){} }

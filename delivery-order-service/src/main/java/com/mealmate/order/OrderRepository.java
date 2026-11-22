@@ -1,0 +1,1 @@
+package com.mealmate.order;import org.springframework.data.jpa.repository.*;import java.util.*;public interface OrderRepository extends JpaRepository<OrderModel,UUID>{Optional<OrderModel> findByIdempotencyKey(String key);}

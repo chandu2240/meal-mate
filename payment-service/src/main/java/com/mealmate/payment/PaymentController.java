@@ -1,0 +1,1 @@
+package com.mealmate.payment; import org.springframework.web.bind.annotation.*; import java.util.*; @RestController @RequestMapping("/payments") class PaymentController { final PaymentRepository r; PaymentController(PaymentRepository x){r=x;} @GetMapping("/{id}") Payment get(@PathVariable UUID id){return r.findById(id).orElseThrow();} }

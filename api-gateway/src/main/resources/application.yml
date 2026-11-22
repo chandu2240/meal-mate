@@ -1,0 +1,92 @@
+server:
+  port: ${SERVER_PORT:9000}
+
+spring:
+  application:
+    name: api-gateway
+  cloud:
+    gateway:
+      routes:
+        - id: restaurant-service
+          uri: http://${RESTAURANT_SERVICE_HOST:localhost}:8081
+          predicates: [ Path=/restaurants/** ]
+        - id: availability-service
+          uri: http://${AVAILABILITY_SERVICE_HOST:localhost}:8082
+          predicates: [ Path=/availability/** ]
+        - id: delivery-order-service
+          uri: http://${DELIVERY_ORDER_SERVICE_HOST:localhost}:8083
+          predicates: [ Path=/food-orders/** ]
+        - id: payment-service
+          uri: http://${PAYMENT_SERVICE_HOST:localhost}:8084
+          predicates: [ Path=/payments/** ]
+        - id: delivery-service
+          uri: http://${DELIVERY_SERVICE_HOST:localhost}:8085
+          predicates: [ Path=/deliveries/** ]
+        - id: notification-service
+          uri: http://${NOTIFICATION_SERVICE_HOST:localhost}:8086
+          predicates: [ Path=/notifications/** ]
+        - id: preparation-status
+          uri: http://${DELIVERY_ORDER_SERVICE_HOST:localhost}:8083
+          predicates: [ Path=/food-orders/*/preparation-status ]
+        - id: restaurant-openapi
+          uri: http://${RESTAURANT_SERVICE_HOST:localhost}:8081
+          predicates: [ Path=/openapi/restaurant-service ]
+          filters: [ SetPath=/v3/api-docs ]
+        - id: availability-openapi
+          uri: http://${AVAILABILITY_SERVICE_HOST:localhost}:8082
+          predicates: [ Path=/openapi/availability-service ]
+          filters: [ SetPath=/v3/api-docs ]
+        - id: order-openapi
+          uri: http://${DELIVERY_ORDER_SERVICE_HOST:localhost}:8083
+          predicates: [ Path=/openapi/delivery-order-service ]
+          filters: [ SetPath=/v3/api-docs ]
+        - id: payment-openapi
+          uri: http://${PAYMENT_SERVICE_HOST:localhost}:8084
+          predicates: [ Path=/openapi/payment-service ]
+          filters: [ SetPath=/v3/api-docs ]
+        - id: delivery-openapi
+          uri: http://${DELIVERY_SERVICE_HOST:localhost}:8085
+          predicates: [ Path=/openapi/delivery-service ]
+          filters: [ SetPath=/v3/api-docs ]
+        - id: notification-openapi
+          uri: http://${NOTIFICATION_SERVICE_HOST:localhost}:8086
+          predicates: [ Path=/openapi/notification-service ]
+          filters: [ SetPath=/v3/api-docs ]
+
+springdoc:
+  swagger-ui:
+    urls:
+      - name: api-gateway
+        url: /v3/api-docs
+      - name: restaurant-service
+        url: /openapi/restaurant-service
+      - name: availability-service
+        url: /openapi/availability-service
+      - name: delivery-order-service
+        url: /openapi/delivery-order-service
+      - name: payment-service
+        url: /openapi/payment-service
+      - name: delivery-service
+        url: /openapi/delivery-service
+      - name: notification-service
+        url: /openapi/notification-service
+
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true
+
+management:
+  endpoints:
+    web:
+      exposure:
+        include: health,info,gateway
+  endpoint:
+    health:
+      probes:
+        enabled: true
+
+# Platform convention: business services register these exact Eureka IDs and expose
+# their documented paths. Gateway is the only public business API entry point.
