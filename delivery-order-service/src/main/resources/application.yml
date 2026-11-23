@@ -7,3 +7,9 @@ spring.jpa.hibernate.ddl-auto: ${JPA_DDL_AUTO:update}
 spring.kafka.bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
 services.availability-url: ${AVAILABILITY_URL:http://localhost:8082}
 internal.token: ${INTERNAL_TOKEN:meal-mate-internal}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true

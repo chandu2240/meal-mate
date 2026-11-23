@@ -7,3 +7,9 @@ spring:
   jpa.hibernate.ddl-auto: ${JPA_DDL_AUTO:update}
   jpa.open-in-view: false
 server.port: ${SERVER_PORT:8081}
+eureka:
+  client:
+    service-url:
+      defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
+    register-with-eureka: true
+    fetch-registry: true

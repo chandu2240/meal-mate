@@ -19,7 +19,7 @@ const terminalOrderStatuses = new Set(['REJECTED', 'CONFIRMED', 'CANCELLED']);
 
 function App() {
   const [token, setToken] = useState(localStorage.getItem('mealMateToken') || '');
-  const [login, setLogin] = useState({ username:'customer', password:'password' });
+  const [login, setLogin] = useState({ username:'demo', password:'demo' });
   const [restaurants, setRestaurants] = useState([]), [restaurantId, setRestaurantId] = useState(demo.restaurantId);
   const [menu, setMenu] = useState([]), [selectedItem, setSelectedItem] = useState(demo.menuItemId);
   const [orderId, setOrderId] = useState(''), [order, setOrder] = useState(null), [payment, setPayment] = useState(null), [delivery, setDelivery] = useState(null), [notifications, setNotifications] = useState([]);

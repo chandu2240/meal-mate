@@ -59,32 +59,32 @@ services:
   restaurant-service:
     build: ./restaurant-service
     ports: ["8081:8081"]
-    environment: { DB_URL: jdbc:postgresql://postgres-restaurant:5432/restaurant_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate }
+    environment: { DB_URL: jdbc:postgresql://postgres-restaurant:5432/restaurant_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-restaurant, discovery-server]
   availability-service:
     build: ./availability-service
     ports: ["8082:8082"]
-    environment: { DB_URL: jdbc:postgresql://postgres-availability:5432/availability_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate }
+    environment: { DB_URL: jdbc:postgresql://postgres-availability:5432/availability_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-availability, discovery-server]
   delivery-order-service:
     build: ./delivery-order-service
     ports: ["8083:8083"]
-    environment: { DB_URL: jdbc:postgresql://postgres-order:5432/order_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092, AVAILABILITY_URL: http://availability-service:8082, INTERNAL_TOKEN: meal-mate-internal }
+    environment: { DB_URL: jdbc:postgresql://postgres-order:5432/order_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092, AVAILABILITY_URL: http://availability-service:8082, INTERNAL_TOKEN: meal-mate-internal, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-order, availability-service, kafka, discovery-server]
   payment-service:
     build: ./payment-service
     ports: ["8084:8084"]
-    environment: { DB_URL: jdbc:postgresql://postgres-payment:5432/payment_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092 }
+    environment: { DB_URL: jdbc:postgresql://postgres-payment:5432/payment_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-payment, kafka, discovery-server]
   delivery-service:
     build: ./delivery-service
     ports: ["8085:8085"]
-    environment: { DB_URL: jdbc:postgresql://postgres-delivery:5432/delivery_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092 }
+    environment: { DB_URL: jdbc:postgresql://postgres-delivery:5432/delivery_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-delivery, kafka, discovery-server]
   notification-service:
     build: ./notification-service
     ports: ["8086:8086"]
-    environment: { DB_URL: jdbc:postgresql://postgres-notification:5432/notification_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092 }
+    environment: { DB_URL: jdbc:postgresql://postgres-notification:5432/notification_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-notification, kafka, discovery-server]
   frontend:
     build: ./frontend
