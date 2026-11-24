@@ -29,6 +29,11 @@ services:
     environment: { POSTGRES_DB: notification_db, POSTGRES_USER: meal_mate, POSTGRES_PASSWORD: meal_mate }
     ports: ["55437:5432"]
     volumes: [notification-data:/var/lib/postgresql/data]
+  postgres-customer:
+    image: postgres:16-alpine
+    environment: { POSTGRES_DB: customer_db, POSTGRES_USER: meal_mate, POSTGRES_PASSWORD: meal_mate }
+    ports: ["55438:5432"]
+    volumes: [customer-data:/var/lib/postgresql/data]
   kafka:
     image: soldevelo/kafka:3.8
     ports: ["59092:9092"]
@@ -55,6 +60,7 @@ services:
       PAYMENT_SERVICE_HOST: payment-service
       DELIVERY_SERVICE_HOST: delivery-service
       NOTIFICATION_SERVICE_HOST: notification-service
+      CUSTOMER_SERVICE_HOST: customer-service
     depends_on: [discovery-server, kafka]
   restaurant-service:
     build: ./restaurant-service
@@ -86,6 +92,11 @@ services:
     ports: ["8086:8086"]
     environment: { DB_URL: jdbc:postgresql://postgres-notification:5432/notification_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, KAFKA_BOOTSTRAP_SERVERS: kafka:9092, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
     depends_on: [postgres-notification, kafka, discovery-server]
+  customer-service:
+    build: ./customer-service
+    ports: ["8087:8087"]
+    environment: { DB_URL: jdbc:postgresql://postgres-customer:5432/customer_db, DB_USERNAME: meal_mate, DB_PASSWORD: meal_mate, EUREKA_CLIENT_SERVICEURL_DEFAULTZONE: http://discovery-server:8761/eureka/ }
+    depends_on: [postgres-customer, discovery-server]
   frontend:
     build: ./frontend
     ports: ["3000:80"]
@@ -97,4 +108,5 @@ volumes:
   payment-data: {}
   delivery-data: {}
   notification-data: {}
+  customer-data: {}
   kafka-data: {}

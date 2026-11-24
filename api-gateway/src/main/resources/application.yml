@@ -25,6 +25,9 @@ spring:
         - id: notification-service
           uri: http://${NOTIFICATION_SERVICE_HOST:localhost}:8086
           predicates: [ Path=/notifications/** ]
+        - id: customer-service
+          uri: http://${CUSTOMER_SERVICE_HOST:localhost}:8087
+          predicates: [ Path=/customers/** ]
         - id: preparation-status
           uri: http://${DELIVERY_ORDER_SERVICE_HOST:localhost}:8083
           predicates: [ Path=/food-orders/*/preparation-status ]
@@ -52,6 +55,10 @@ spring:
           uri: http://${NOTIFICATION_SERVICE_HOST:localhost}:8086
           predicates: [ Path=/openapi/notification-service ]
           filters: [ SetPath=/v3/api-docs ]
+        - id: customer-openapi
+          uri: http://${CUSTOMER_SERVICE_HOST:localhost}:8087
+          predicates: [ Path=/openapi/customer-service ]
+          filters: [ SetPath=/v3/api-docs ]
 
 springdoc:
   swagger-ui:
@@ -70,6 +77,8 @@ springdoc:
         url: /openapi/delivery-service
       - name: notification-service
         url: /openapi/notification-service
+      - name: customer-service
+        url: /openapi/customer-service
 
 eureka:
   client:

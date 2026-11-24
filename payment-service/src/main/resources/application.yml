@@ -5,6 +5,12 @@ spring.datasource.username: ${DB_USERNAME:postgres}
 spring.datasource.password: ${DB_PASSWORD:postgres}
 spring.jpa.hibernate.ddl-auto: update
 spring.kafka.bootstrap-servers: ${KAFKA_BOOTSTRAP_SERVERS:localhost:9092}
+spring.kafka.producer.value-serializer: org.springframework.kafka.support.serializer.JsonSerializer
+spring.kafka.producer.properties.spring.json.add.type.headers: false
+spring.kafka.consumer.value-deserializer: org.springframework.kafka.support.serializer.JsonDeserializer
+spring.kafka.consumer.properties.spring.json.use.type.headers: false
+spring.kafka.consumer.properties.spring.json.value.default.type: com.mealmate.payment.PaymentConsumer$Event
+spring.kafka.consumer.properties.spring.json.trusted.packages: com.mealmate.payment
 eureka.client.service-url.defaultZone: ${EUREKA_CLIENT_SERVICEURL_DEFAULTZONE:http://localhost:8761/eureka/}
 eureka.client.register-with-eureka: true
 eureka.client.fetch-registry: true

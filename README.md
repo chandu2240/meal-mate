@@ -27,6 +27,17 @@ The gateway issues the bearer token at `POST /auth/login`; all business routes r
 
 The API Gateway exposes interactive Swagger UI at `http://localhost:9000/swagger-ui.html`. Use the Swagger UI service selector to view Restaurant, Availability, Order, Payment, Delivery, or Notification APIs. The aggregated service documents are available under `/openapi/<service-name>`.
 
+To initialize availability for a newly created menu item, call the Gateway API with the menu item UUID:
+
+```bash
+curl -X PUT http://localhost:9000/availability/menu-items/<MENU_ITEM_ID> \
+  -H "Authorization: Bearer $TOKEN" \
+  -H "Content-Type: application/json" \
+  -d '{"quantity":20}'
+```
+
+The endpoint creates the availability row when it does not exist and updates the total quantity when it does. It will reject reducing the total below the currently reserved quantity.
+
 ## Start with Docker Compose
 
 The Compose file uses deliberately non-default host ports: PostgreSQL `55432`–`55437`, Kafka `59092`, Eureka `8761`, gateway `9000`, and frontend `3000`. It expects these sibling backend directories: `discovery-server`, `api-gateway`, `restaurant-service`, `availability-service`, `delivery-order-service`, `payment-service`, `delivery-service`, and `notification-service`.
